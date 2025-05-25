@@ -15,7 +15,7 @@ const GlobalStyles = createGlobalStyle`
     width: 100%;
     max-width: 430px;
     min-height: 100vh;
-    background-color: #fff;
+    background-color: #f0f8ff;
   }
   
   button {
