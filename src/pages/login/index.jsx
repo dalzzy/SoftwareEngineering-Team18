@@ -5,7 +5,7 @@ import Header from '@/components/Header/Header.jsx';
 import { validateEmail, validatePassword } from '@/utils/validation.js';
 import { useNavigate } from 'react-router-dom';
 
-const Signup = () => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -28,8 +28,7 @@ const Signup = () => {
       setPasswordError('');
     }
     if (!valid) return;
-    alert('가입이 완료되었습니다!');
-    nav('/');
+    nav('/home');
   };
 
   return (
@@ -47,10 +46,10 @@ const Signup = () => {
         }}
       >
         <h2 style={{ textAlign: 'center', marginBottom: 24, fontSize: 32, fontWeight: 700 }}>
-          Signup
+          Login
         </h2>
         <Input
-          type="email"
+          type="text"
           placeholder="이메일"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -64,11 +63,11 @@ const Signup = () => {
         />
         {passwordError && <div style={{ color: 'red', fontSize: 14 }}>{passwordError}</div>}
         <Button type="submit" variant="primary" size="lg" fullWidth>
-          회원가입
+          로그인
         </Button>
       </form>
     </>
   );
 };
 
-export default Signup;
+export default Login;
