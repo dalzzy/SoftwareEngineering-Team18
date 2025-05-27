@@ -10,25 +10,25 @@ const mockFriends = [
   {
     id: 1,
     name: 'Alice',
-    anniversary: '2024-06-20',
+    anniversary: '2025-06-05',
     anniversaries: [
-      { type: '생일', date: '2024-06-20' },
-      { type: '결혼기념일', date: '2022-05-01' },
+      { type: '생일', date: '2025-06-05' },
+      { type: '결혼기념일', date: '2025-06-11' },
     ],
   },
   {
     id: 2,
     name: 'Bob',
-    anniversary: '2024-06-25',
-    anniversaries: [{ type: '생일', date: '2024-06-25' }],
+    anniversary: '2025-06-25',
+    anniversaries: [{ type: '생일', date: '2025-06-25' }],
   },
   {
     id: 3,
     name: 'Charlie',
-    anniversary: '2024-07-01',
+    anniversary: '2025-07-01',
     anniversaries: [
-      { type: '생일', date: '2024-07-01' },
-      { type: '졸업', date: '2023-02-15' },
+      { type: '생일', date: '2025-07-01' },
+      { type: '졸업', date: '2025-02-15' },
     ],
   },
 ];
