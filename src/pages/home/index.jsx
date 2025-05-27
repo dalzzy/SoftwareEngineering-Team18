@@ -1,15 +1,36 @@
-// src/pages/home/index.jsx
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import FriendsItem from '@/components/FriendsItem';
+import FriendModal from '@/components/FriendModal';
 import Header from '@/components/common/Header';
-import BottomBar from '@/components/BottomBar';
+import BottomBar from '@/components/common/BottomBar';
 import SearchIcon from '@/assets/search.svg?react';
 
 const mockFriends = [
-  { id: 1, name: 'Alice', anniversary: '2024-06-20' },
-  { id: 2, name: 'Bob', anniversary: '2024-06-25' },
-  { id: 3, name: 'Charlie', anniversary: '2024-07-01' },
+  {
+    id: 1,
+    name: 'Alice',
+    anniversary: '2024-06-20',
+    anniversaries: [
+      { type: '생일', date: '2024-06-20' },
+      { type: '결혼기념일', date: '2022-05-01' },
+    ],
+  },
+  {
+    id: 2,
+    name: 'Bob',
+    anniversary: '2024-06-25',
+    anniversaries: [{ type: '생일', date: '2024-06-25' }],
+  },
+  {
+    id: 3,
+    name: 'Charlie',
+    anniversary: '2024-07-01',
+    anniversaries: [
+      { type: '생일', date: '2024-07-01' },
+      { type: '졸업', date: '2023-02-15' },
+    ],
+  },
 ];
 
 const Wrapper = styled.div`
@@ -36,13 +57,19 @@ const SearchInput = styled.input`
   background-color: transparent;
 `;
 
-const ListWrapper = styled.div``;
-
 const Home = () => {
   const [search, setSearch] = useState('');
+  const [selectedFriend, setSelectedFriend] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const filteredFriends = mockFriends.filter((friend) =>
     friend.name.toLowerCase().includes(search.toLowerCase()),
   );
+
+  const handleFriendClick = (friend) => {
+    setSelectedFriend(friend);
+    setIsModalOpen(true);
+  };
 
   return (
     <Wrapper>
@@ -56,11 +83,16 @@ const Home = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
       </SearchBox>
-      <ListWrapper>
+      <div>
         {filteredFriends.map((friend) => (
-          <FriendsItem key={friend.id} friend={friend} />
+          <FriendsItem key={friend.id} friend={friend} onClick={() => handleFriendClick(friend)} />
         ))}
-      </ListWrapper>
+      </div>
+
+      {isModalOpen && selectedFriend && (
+        <FriendModal friend={selectedFriend} onClose={() => setIsModalOpen(false)} />
+      )}
+
       <BottomBar />
     </Wrapper>
   );
