@@ -3,7 +3,7 @@ import LogoIcon from '@/assets/logo.svg?react';
 import Button from '@/components/common/Button.jsx';
 import { useNavigate } from 'react-router-dom';
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;

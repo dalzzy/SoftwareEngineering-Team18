@@ -1,9 +1,47 @@
 // src/components/common/BottomBar.jsx
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
 import HomeIcon from '@/assets/home.svg?react';
 import BellIcon from '@/assets/bell.svg?react';
 import CalendarIcon from '@/assets/calendar.svg?react';
+
+const BarWrapper = styled.div`
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  height: 60px;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+`;
+
+const BarInner = styled.div`
+  width: 100%;
+  max-width: 370px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+const TabButton = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: none;
+  color: ${({ active }) => (active ? '#000' : '#999')};
+`;
+
+const Label = styled.span`
+  font-size: 12px;
+  margin-top: 4px;
+`;
 
 const BottomBar = () => {
   const navigate = useNavigate();
@@ -11,42 +49,25 @@ const BottomBar = () => {
 
   const tabs = [
     { path: '/home', icon: <HomeIcon />, label: '홈' },
-    { path: '/upcoming', icon: <BellIcon />, label: '알림' },
     { path: '/anniversary/add', icon: <CalendarIcon />, label: '기념일 추가' },
+    { path: '/upcoming', icon: <BellIcon />, label: '알림' },
   ];
 
   return (
-    <nav
-      style={{
-        display: 'flex',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        position: 'fixed',
-        bottom: 0,
-        width: '100%',
-        height: '60px',
-        backgroundColor: '#fff',
-        borderTop: '1px solid #ddd',
-      }}
-    >
-      {tabs.map((tab) => (
-        <button
-          key={tab.path}
-          onClick={() => navigate(tab.path)}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            background: 'none',
-            border: 'none',
-            color: location.pathname === tab.path ? '#000' : '#999',
-          }}
-        >
-          {tab.icon}
-          <span style={{ fontSize: '12px', marginTop: '4px' }}>{tab.label}</span>
-        </button>
-      ))}
-    </nav>
+    <BarWrapper>
+      <BarInner>
+        {tabs.map((tab) => (
+          <TabButton
+            key={tab.path}
+            onClick={() => navigate(tab.path)}
+            active={location.pathname === tab.path}
+          >
+            {tab.icon}
+            <Label>{tab.label}</Label>
+          </TabButton>
+        ))}
+      </BarInner>
+    </BarWrapper>
   );
 };
 
