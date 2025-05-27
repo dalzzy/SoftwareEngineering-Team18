@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { variantStyles, sizeStyles, roundedStyles } from '@/components/Button/Button.styled';
+import { variantStyles, sizeStyles, roundedStyles } from '@/components/common/Button.styled';
 import { forwardRef } from 'react';
 
 const StyledButton = styled.button`

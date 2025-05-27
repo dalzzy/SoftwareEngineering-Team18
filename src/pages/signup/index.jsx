@@ -1,15 +1,17 @@
-import Input from '@/components/Input/Input.jsx';
-import Button from '@/components/Button/Button.jsx';
+import Input from '@/components/common/Input.jsx';
+import Button from '@/components/common/Button.jsx';
 import { useState } from 'react';
-import Header from '@/components/Header/Header.jsx';
-import { validateEmail, validatePassword } from '@/utils/validation.js';
+import Header from '@/components/common/Header.jsx';
+import { validateEmail, validatePassword, validateNickname } from '@/utils/validation.js';
 import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [nickname, setNickname] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [nicknameError, setNicknameError] = useState('');
   const nav = useNavigate();
 
   const handleSubmit = (e) => {
@@ -26,6 +28,12 @@ const Signup = () => {
       valid = false;
     } else {
       setPasswordError('');
+    }
+    if (!validateNickname(nickname)) {
+      setNicknameError('닉네임은 2글자 이상이어야 합니다.');
+      valid = false;
+    } else {
+      setNicknameError('');
     }
     if (!valid) return;
     alert('가입이 완료되었습니다!');
@@ -63,6 +71,13 @@ const Signup = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         {passwordError && <div style={{ color: 'red', fontSize: 14 }}>{passwordError}</div>}
+        <Input
+          type="text"
+          placeholder="닉네임"
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
+        />
+        {nicknameError && <div style={{ color: 'red', fontSize: 14 }}>{nicknameError}</div>}
         <Button type="submit" variant="primary" size="lg" fullWidth>
           회원가입
         </Button>

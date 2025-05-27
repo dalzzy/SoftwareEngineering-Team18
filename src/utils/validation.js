@@ -9,6 +9,11 @@ export function validatePassword(password) {
   return password.length >= 6;
 }
 
+// 닉네임: 2글자 이상
+export function validateNickname(nickname) {
+  return nickname.trim().length >= 2;
+}
+
 // 파이어베이스 인증 에러코드를 사용자 메시지로 변환
 export function getFirebaseAuthErrorMessage(errorCode) {
   switch (errorCode) {

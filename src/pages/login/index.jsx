@@ -1,7 +1,7 @@
-import Input from '@/components/Input/Input.jsx';
-import Button from '@/components/Button/Button.jsx';
+import Input from '@/components/common/Input.jsx';
+import Button from '@/components/common/Button.jsx';
 import { useState } from 'react';
-import Header from '@/components/Header/Header.jsx';
+import Header from '@/components/common/Header.jsx';
 import { validateEmail, validatePassword } from '@/utils/validation.js';
 import { useNavigate } from 'react-router-dom';
 

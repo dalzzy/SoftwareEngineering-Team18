@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import LogoIcon from '@/assets/logo.svg?react';
-import Button from '@/components/Button/Button.jsx';
+import Button from '@/components/common/Button.jsx';
 import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
