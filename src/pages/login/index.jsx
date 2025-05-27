@@ -2,16 +2,14 @@ import Input from '@/components/common/Input.jsx';
 import Button from '@/components/common/Button.jsx';
 import { useState } from 'react';
 import Header from '@/components/common/Header.jsx';
-import { validateEmail, validatePassword, validateName } from '@/utils/validation.js';
+import { validateEmail, validatePassword } from '@/utils/validation.js';
 import { useNavigate } from 'react-router-dom';
 
-const Signup = () => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [nameError, setNameError] = useState('');
   const nav = useNavigate();
 
   const handleSubmit = (e) => {
@@ -29,15 +27,8 @@ const Signup = () => {
     } else {
       setPasswordError('');
     }
-    if (!validateName(name)) {
-      setNameError('이름은 2글자 이상이어야 합니다.');
-      valid = false;
-    } else {
-      setNameError('');
-    }
     if (!valid) return;
-    alert('가입이 완료되었습니다!');
-    nav('/');
+    nav('/home');
   };
 
   return (
@@ -55,10 +46,10 @@ const Signup = () => {
         }}
       >
         <h2 style={{ textAlign: 'center', marginBottom: 24, fontSize: 32, fontWeight: 700 }}>
-          Signup
+          Login
         </h2>
         <Input
-          type="email"
+          type="text"
           placeholder="이메일"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -71,19 +62,12 @@ const Signup = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         {passwordError && <div style={{ color: 'red', fontSize: 14 }}>{passwordError}</div>}
-        <Input
-          type="text"
-          placeholder="이름"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        {nameError && <div style={{ color: 'red', fontSize: 14 }}>{nameError}</div>}
         <Button type="submit" variant="primary" size="lg" fullWidth>
-          회원가입
+          로그인
         </Button>
       </form>
     </>
   );
 };
 
-export default Signup;
+export default Login;
