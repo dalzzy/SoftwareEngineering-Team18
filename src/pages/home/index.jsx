@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import FriendsItem from '@/components/FriendsItem';
 import FriendModal from '@/components/FriendModal';
 import Header from '@/components/common/Header';
 import BottomBar from '@/components/common/BottomBar';
 import SearchIcon from '@/assets/search.svg?react';
+import { db, auth } from '@/services/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 const mockFriends = [
   {
@@ -61,8 +63,62 @@ const Home = () => {
   const [search, setSearch] = useState('');
   const [selectedFriend, setSelectedFriend] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [anniversaries, setAnniversaries] = useState([]);
 
-  const filteredFriends = mockFriends.filter((friend) =>
+  useEffect(() => {
+    const fetchAnniversaries = async () => {
+      try {
+        // 유저 로그인 검증
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+          console.error('No user logged in');
+          return;
+        }
+
+        // 기념일 데이터 조회
+        const querySnapshot = await getDocs(collection(db, 'anniversaries'));
+        const userAnniversaries = {};
+
+        querySnapshot.docs.forEach((doc) => {
+          const data = doc.data();
+          if (!userAnniversaries[data.uid]) {
+            userAnniversaries[data.uid] = {
+              id: data.uid,
+              name: data.name,
+              anniversaries: [],
+            };
+          }
+          userAnniversaries[data.uid].anniversaries.push({
+            type: data.type,
+            date: data.date,
+          });
+        });
+
+        // 기념일 데이터 정렬
+        const anniversaryData = Object.values(userAnniversaries).map((user) => {
+          const sortedAnniversaries = user.anniversaries.sort(
+            (a, b) => new Date(a.date) - new Date(b.date),
+          );
+          const nextAnniversary =
+            sortedAnniversaries.find((a) => new Date(a.date) >= new Date()) ||
+            sortedAnniversaries[0];
+
+          return {
+            ...user,
+            anniversary: nextAnniversary?.date,
+          };
+        });
+
+        setAnniversaries(anniversaryData);
+      } catch (error) {
+        console.error('Error fetching anniversaries:', error);
+      }
+    };
+
+    fetchAnniversaries();
+  }, []);
+
+  const filteredFriends = anniversaries.filter((friend) =>
     friend.name.toLowerCase().includes(search.toLowerCase()),
   );
 
