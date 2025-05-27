@@ -6,9 +6,11 @@ import BottomBar from '@/components/common/BottomBar';
 import UpcomingItem from '@/components/UpcomingItem';
 
 const mockUpcoming = [
-  { id: 1, name: 'Alice', type: '생일', date: '2024-06-20' },
-  { id: 2, name: 'Charlie', type: '결혼기념일', date: '2024-06-21' },
+  { id: 1, name: 'Alice', type: '생일', date: '2024-06-05' },
+
+  { id: 2, name: 'Charlie', type: '결혼기념일', date: '2024-06-11' },
   { id: 3, name: '나', type: '생일', date: '2024-06-22' },
+  { id: 4, name: '김철수', type: '생일', date: '2024-06-23' },
 ];
 
 const Wrapper = styled.div`
