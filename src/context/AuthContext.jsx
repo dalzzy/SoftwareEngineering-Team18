@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  updateProfile,
 } from 'firebase/auth';
 
 const AuthContext = createContext();
@@ -22,9 +23,10 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
-  const signup = async (email, password) => {
+  const signup = async (email, password, name) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(userCredential.user, { displayName: name });
       return userCredential.user;
     } catch (error) {
       throw error;
