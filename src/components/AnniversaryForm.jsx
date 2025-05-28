@@ -2,6 +2,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from '@/components/common/Button';
+import { useAuth } from '@/context/AuthContext';
+import { db } from '@/services/firebase';
+import { collection, addDoc } from 'firebase/firestore';
 
 const FormContainer = styled.div`
   display: flex;
@@ -24,16 +27,30 @@ const Input = styled.input`
 const AnniversaryForm = () => {
   const [date, setDate] = useState('');
   const [type, setType] = useState('');
+  const { user } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!date || !type) {
       alert('모든 항목을 입력해주세요.');
       return;
     }
-    alert(`기념일이 등록되었습니다.\n유형: ${type}\n날짜: ${date}`);
-    setDate('');
-    setType('');
+
+    await addDoc(collection(db, 'anniversaries'), {
+      uid: user.uid,
+      name: user.displayName,
+      date,
+      type,
+    })
+      .then(() => {
+        alert(`기념일이 등록되었습니다.\n유형: ${type}\n날짜: ${date}`);
+        setDate('');
+        setType('');
+      })
+      .catch((e) => {
+        console.log(e);
+        alert('기념일 등록에 실패했습니다.');
+      });
   };
 
   return (

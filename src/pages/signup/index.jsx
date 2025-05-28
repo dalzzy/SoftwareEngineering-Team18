@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Header from '@/components/common/Header.jsx';
 import { validateEmail, validatePassword, validateName } from '@/utils/validation.js';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -13,8 +14,9 @@ const Signup = () => {
   const [passwordError, setPasswordError] = useState('');
   const [nameError, setNameError] = useState('');
   const nav = useNavigate();
+  const { signup } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let valid = true;
     if (!validateEmail(email)) {
@@ -36,8 +38,15 @@ const Signup = () => {
       setNameError('');
     }
     if (!valid) return;
-    alert('가입이 완료되었습니다!');
-    nav('/');
+
+    await signup(email, password, name)
+      .then(() => {
+        alert('가입이 완료되었습니다!');
+        nav('/');
+      })
+      .catch(() => {
+        alert('가입에 실패했습니다.');
+      });
   };
 
   return (

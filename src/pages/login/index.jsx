@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Header from '@/components/common/Header.jsx';
 import { validateEmail, validatePassword } from '@/utils/validation.js';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -11,8 +12,9 @@ const Login = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const nav = useNavigate();
+  const { login } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let valid = true;
     if (!validateEmail(email)) {
@@ -28,7 +30,15 @@ const Login = () => {
       setPasswordError('');
     }
     if (!valid) return;
-    nav('/home');
+
+    await login(email, password)
+      .then(() => {
+        alert('로그인이 완료되었습니다!');
+        nav('/home');
+      })
+      .catch(() => {
+        alert('로그인에 실패했습니다.');
+      });
   };
 
   return (
